@@ -35,6 +35,7 @@ Route::get('/products/search/{query}', [ProductController::class, 'search']);
 
 // Authentication
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 /**
  *  Private Routes
