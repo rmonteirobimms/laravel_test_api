@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,16 +23,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ *  Public Routes
+ * 
+ */
+
+// Products
 Route::get('/products', [ProductController::class, 'index']);
-
-Route::post('/products', [ProductController::class, 'store']);
-
-Route::put('/products/{id}', [ProductController::class, 'update']);
-
-Route::delete('/products/{id}', [ProductController::class, 'destroy']);
-
 Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::get('/products/search/{query}', [ProductController::class, 'search']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Authentication
+Route::post('/register', [AuthController::class, 'register']);
+
+/**
+ *  Private Routes
+ * 
+ */
+
+
+// Products
+Route::post('/products', [ProductController::class, 'store'])->middleware('auth:sanctum');
+Route::put('/products/{id}', [ProductController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->middleware('auth:sanctum');
+
+// Authentication
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');

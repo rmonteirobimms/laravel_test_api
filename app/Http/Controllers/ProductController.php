@@ -14,6 +14,14 @@ class ProductController extends Controller
         return Product::all();
     }
 
+    //Returns all the products available
+    public function search($query){
+        return Product::where('name', 'LIKE', '%'.$query.'%')
+                        ->orWhere('description', 'LIKE', '%'.$query.'%')
+                        ->orWhere('slug', 'LIKE', '%'.$query.'%')
+                        ->get();
+    }
+
     //Returns specific product
     public function show($id){
         return Product::find($id);
