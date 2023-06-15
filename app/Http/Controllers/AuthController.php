@@ -16,6 +16,8 @@ class AuthController extends Controller
         $user = User::create($validatedData);
         $token = $user->createToken('authToken')->accessToken;
 
+        $user->sendEmailVerificationNotification();
+
         return response([
             'user' => $user, 
             'accessToken' => $token
@@ -31,8 +33,8 @@ class AuthController extends Controller
             return response(["message" => 'Invalid Credentials'], 401);
         }
 
-        $token = $user->createToken('authToken')->accessToken;
-
+        $token = $user->createToken('authToken');
+        
         return response([
             'user' => $user,
             'token' => $token
